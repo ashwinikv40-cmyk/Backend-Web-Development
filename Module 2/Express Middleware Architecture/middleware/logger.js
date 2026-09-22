@@ -13,6 +13,16 @@
  * Example line:  [a3f9c1e2] POST /posts 201
  */
 
-module.exports = function logger(req, res, next) {
-  // TODO: register res.on('finish', ...) to log method, path, status, then next().
-};
+function logger(req, res, next) {
+  res.on("finish", () => {
+    const id = req.id ? `[${req.id.slice(0, 8)}] ` : "";
+
+    console.log(
+      `${id}${req.method} ${req.originalUrl} ${res.statusCode}`
+    );
+  });
+
+  next();
+}
+
+module.exports = logger;
