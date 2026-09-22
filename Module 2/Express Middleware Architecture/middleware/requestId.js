@@ -8,8 +8,16 @@
  *   - calls next() so the request continues down the pipeline
  */
 
-const { randomUUID } = require('crypto');
+const crypto = require("crypto");
 
-module.exports = function requestId(req, res, next) {
-  // TODO: implement the four steps described above.
-};
+function requestId(req, res, next) {
+  const id = crypto.randomUUID();
+
+  req.id = id;
+
+  res.setHeader("X-Request-Id", id);
+
+  next();
+}
+
+module.exports = requestId;
